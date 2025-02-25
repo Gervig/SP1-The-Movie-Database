@@ -23,4 +23,5 @@ public class Movie
     private Integer movieApiID;
     private List<Genre> genres;
     private List<Actor> actors;
+    private Director director;
 }
