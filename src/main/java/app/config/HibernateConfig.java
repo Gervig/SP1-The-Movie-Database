@@ -1,5 +1,9 @@
 package app.config;
 
+import app.entities.Actor;
+import app.entities.Director;
+import app.entities.Genre;
+import app.entities.Movie;
 import app.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -9,28 +13,34 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.util.Properties;
 
-public class HibernateConfig {
+public class HibernateConfig
+{
 
     private static EntityManagerFactory emf;
     private static EntityManagerFactory emfTest;
     private static Boolean isTest = false;
 
-    public static void setTest(Boolean test) {
+    public static void setTest(Boolean test)
+    {
         isTest = test;
     }
 
-    public static Boolean getTest() {
+    public static Boolean getTest()
+    {
         return isTest;
     }
 
-    public static EntityManagerFactory getEntityManagerFactory() {
+    public static EntityManagerFactory getEntityManagerFactory()
+    {
         if (emf == null)
             emf = createEMF(getTest());
         return emf;
     }
 
-    public static EntityManagerFactory getEntityManagerFactoryForTest() {
-        if (emfTest == null){
+    public static EntityManagerFactory getEntityManagerFactoryForTest()
+    {
+        if (emfTest == null)
+        {
             setTest(true);
             emfTest = createEMF(getTest());  // No DB needed for test
         }
@@ -38,21 +48,30 @@ public class HibernateConfig {
     }
 
     // TODO: IMPORTANT: Add Entity classes here for them to be registered with Hibernate
-    private static void getAnnotationConfiguration(Configuration configuration) {
-//             configuration.addAnnotatedClass();
+    private static void getAnnotationConfiguration(Configuration configuration)
+    {
+        configuration.addAnnotatedClass(Actor.class);
+        configuration.addAnnotatedClass(Director.class);
+        configuration.addAnnotatedClass(Genre.class);
+        configuration.addAnnotatedClass(Movie.class);
     }
 
-    private static EntityManagerFactory createEMF(boolean forTest) {
-        try {
+    private static EntityManagerFactory createEMF(boolean forTest)
+    {
+        try
+        {
             Configuration configuration = new Configuration();
             Properties props = new Properties();
             // Set the properties
             setBaseProperties(props);
-            if (forTest) {
+            if (forTest)
+            {
                 props = setTestProperties(props);
-            } else if (System.getenv("DEPLOYED") != null) {
+            } else if (System.getenv("DEPLOYED") != null)
+            {
                 setDeployedProperties(props);
-            } else {
+            } else
+            {
                 props = setDevProperties(props);
             }
             configuration.setProperties(props);
@@ -64,14 +83,15 @@ public class HibernateConfig {
             SessionFactory sf = configuration.buildSessionFactory(serviceRegistry);
             EntityManagerFactory emf = sf.unwrap(EntityManagerFactory.class);
             return emf;
-        }
-        catch (Throwable ex) {
+        } catch (Throwable ex)
+        {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
 
-    private static Properties setBaseProperties(Properties props) {
+    private static Properties setBaseProperties(Properties props)
+    {
         props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
         props.put("hibernate.hbm2ddl.auto", "create"); //create to wipe DB each time, update creates new data
@@ -82,7 +102,8 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setDeployedProperties(Properties props) {
+    private static Properties setDeployedProperties(Properties props)
+    {
         String DBName = System.getenv("DB_NAME");
         props.setProperty("hibernate.connection.url", System.getenv("CONNECTION_STR") + DBName);
         props.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
@@ -90,7 +111,8 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setDevProperties(Properties props) {
+    private static Properties setDevProperties(Properties props)
+    {
         String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
         String DBUsername = Utils.getPropertyValue("DB_USERNAME", "config.properties");
         String DBPassword = Utils.getPropertyValue("DB_PASSWORD", "config.properties");
@@ -100,7 +122,8 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setTestProperties(Properties props) {
+    private static Properties setTestProperties(Properties props)
+    {
         //props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
         props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
