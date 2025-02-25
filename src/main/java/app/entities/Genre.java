@@ -1,15 +1,18 @@
 package app.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.Set;
 
+@Entity
 public class Genre
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "genre_api_id")
     private Integer genreApiId;
-    private String genre;
+    private String name;
+
+    @ManyToMany(mappedBy = "genres")
+    private Set<Movie> movies;
 }

@@ -11,7 +11,7 @@ public class Main
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
 
-
+        
 
         // Close the database connection:
         em.close();

@@ -1,27 +1,43 @@
 package app.entities;
 
-import app.DTOs.ActorDTO;
-import app.DTOs.GenreDTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
 
+@Entity
 public class Movie
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String description;
-    private float rating;
-    private LocalDate releaseDate;
-    private Integer movieApiID;
-    private List<Genre> genres;
-    private List<Actor> actors;
+    private Double rating;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "release_date")
+    private Date releaseDate;
+    @Column(name = "movie_api_id")
+    private Integer movieApiId;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id", nullable = false)
     private Director director;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
+    private Set<Actor> actors;
 }
