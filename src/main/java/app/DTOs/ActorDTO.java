@@ -17,6 +17,7 @@ import java.util.List;
 @JsonIgnoreProperties
 public class ActorDTO
 {
-    private Integer id;
+    @JsonProperty("id")
+    private Integer actorApiId;
     private String name;
 }

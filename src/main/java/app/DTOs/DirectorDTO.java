@@ -1,6 +1,7 @@
 package app.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.ToString;
 @JsonIgnoreProperties
 public class DirectorDTO
 {
-    private Integer id;
+    @JsonProperty("id")
+    private Integer directorApiId;
     private String name;
 }
