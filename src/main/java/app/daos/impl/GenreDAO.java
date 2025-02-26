@@ -13,7 +13,7 @@ public class GenreDAO implements IDAO<Genre, Integer>
     private static EntityManagerFactory emf;
     private static GenreDAO instance;
 
-    private GenreDAO()
+    public GenreDAO()
     {
     }
 
