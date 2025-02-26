@@ -12,7 +12,6 @@ public class Main
         EntityManager em = emf.createEntityManager();
 
 
-
         // Close the database connection:
         em.close();
         emf.close();

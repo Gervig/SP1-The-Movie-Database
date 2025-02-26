@@ -1,17 +1,23 @@
 package app.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder
+@ToString
+@Entity
 public class Actor
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private List<Movie> movies;
+
+    @ManyToMany(mappedBy = "actors")
+    private Set<Movie> movies;
 }

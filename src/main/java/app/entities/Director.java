@@ -1,17 +1,23 @@
 package app.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder
+@ToString
+@Entity
 public class Director
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private List<Movie> movies;
+
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL)
+    private Set<Movie> movies;
 }
