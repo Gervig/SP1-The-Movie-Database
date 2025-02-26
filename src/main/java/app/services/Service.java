@@ -1,6 +1,7 @@
 package app.services;
 
 import app.daos.impl.MovieDAO;
+import app.dtos.ActorDTO;
 import app.dtos.MovieDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,8 +12,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Service
 {
@@ -27,16 +26,9 @@ public class Service
         this.movieDAO = movieDAO;
     }
 
-    //Chrisser - Callable
-    //Casper - Alle ID'er fra api'et
-    //Rikke - Går alle id'erne og henter informationerne fra dem (for-loop)
-
-
-    public String getDataFromClientWithID(List<String> movieApiIds)
+    public String getDataFromApiId(String movieApiId)
     {
-        for (String movieApiId : movieApiIds)
-        {
-            String url = "https://api.themoviedb.org/3/movie/%%?append_to_response=credits&language=da&" + API_KEY;
+            String url = "https://api.themoviedb.org/3/movie/%%?append_to_response=credits%2C%20overview&language=da&" + API_KEY;
             String movieURL = url.replace("%%", movieApiId);
             try
             {
@@ -62,7 +54,6 @@ public class Service
             {
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
@@ -71,11 +62,12 @@ public class Service
     {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new JavaTimeModule());
+        //Den her skal kalde på Chrissers
 
         try
         {
             MovieDTO movieDTO = objectMapper.readValue(
-                    objectMapper.readTree(json).get("movie_results").toString(),MovieDTO[].class)[0];
+                    objectMapper.readTree(json).get("movie_results").toString(),MovieDTO.class);
 
             return movieDTO;
         } catch (JsonProcessingException jPE)
