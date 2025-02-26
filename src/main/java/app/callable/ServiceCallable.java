@@ -1,5 +1,6 @@
 package app.callable;
 import app.dtos.MovieDTO;
+import app.services.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ServiceCallable implements Callable<MovieDTO>
         return movieDTO;
     }
 
-    public static List<MovieDTO> getMovieDTOs(String[] movieApiIds)
+    public static List<MovieDTO> getMovieDTOs(List<String> movieApiIds)
     {
         List<Future<MovieDTO>> futureList = new ArrayList<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
