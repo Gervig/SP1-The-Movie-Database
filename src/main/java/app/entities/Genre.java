@@ -18,6 +18,7 @@ public class Genre
     private Integer id;
     @Column(name = "genre_api_id")
     private Integer genreApiId;
+    @Setter
     private String name;
 
     @ManyToMany(mappedBy = "genres")

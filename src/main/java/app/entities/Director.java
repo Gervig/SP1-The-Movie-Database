@@ -16,6 +16,7 @@ public class Director
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Setter
     private String name;
 
     @OneToMany(mappedBy = "director", cascade = CascadeType.ALL)
