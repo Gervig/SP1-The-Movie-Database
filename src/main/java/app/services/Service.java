@@ -26,6 +26,7 @@ public class Service
         HttpResponse<String> response;
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // Henter API IDs for danske film
         String uri = "https://api.themoviedb.org/3/discover/" +
                 "movie?include_adult=false&include_video=false&language=da" +
                 "&release_date.gte=2020-02-26&release_date.lte=2025-02-26with_original_language=da&" + API_KEY;
