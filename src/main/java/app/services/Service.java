@@ -14,14 +14,14 @@ import java.util.List;
 public class Service
 {
     private final MovieDAO movieDAO;
-    private final String API_KEY = System.getenv("api_key");
+    private static final String API_KEY = System.getenv("api_key");
 
     public Service(MovieDAO movieDAO)
     {
         this.movieDAO = movieDAO;
     }
 
-    public List<Integer> getMovieApiIds()
+    public static List<String> getMovieApiIds()
     {
         HttpResponse<String> response;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -42,12 +42,12 @@ public class Service
             if (response.statusCode() == 200)
             {
                 JsonNode rootNode = objectMapper.readTree(response.body());
-                List<Integer> IDs = new ArrayList<>();
+                List<String> IDs = new ArrayList<>();
 
                 // Iterate through the "results" array and extract "id"
                 for (JsonNode movieNode : rootNode.path("results"))
                 {
-                    IDs.add(movieNode.path("id").asInt());
+                    IDs.add(movieNode.path("id").asText());
                 }
 
                 return IDs;
