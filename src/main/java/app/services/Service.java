@@ -72,7 +72,7 @@ public class Service
         return null;
     }
 
-    public MovieDTO getDataFromApiId(String movieApiId)
+    public static MovieDTO getDataFromApiId(String movieApiId)
     {
         String url = "https://api.themoviedb.org/3/movie/%%?append_to_response=credits%2C%20overview&language=da&" + API_KEY;
         String movieURL = url.replace("%%", movieApiId);
