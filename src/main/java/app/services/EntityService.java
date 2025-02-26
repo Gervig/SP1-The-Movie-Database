@@ -12,13 +12,8 @@ import app.entities.Actor;
 import app.entities.Director;
 import app.entities.Genre;
 import app.entities.Movie;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
