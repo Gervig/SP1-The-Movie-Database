@@ -1,4 +1,5 @@
 package app.callable;
+
 import app.dtos.MovieDTO;
 import app.services.Service;
 
@@ -9,29 +10,33 @@ import java.util.concurrent.*;
 
 import java.util.concurrent.Callable;
 
-public class ServiceCallable implements Callable<MovieDTO>
+// API reference
+// https://developer.themoviedb.org/reference/movie-details
+
+public class DetailsServiceCallable implements Callable<MovieDTO>
 {
     String movieId;
 
-    public ServiceCallable(String movieId)
+    public DetailsServiceCallable(String movieId)
     {
         this.movieId = movieId;
     }
 
     @Override
-    public MovieDTO call() throws Exception {
+    public MovieDTO call() throws Exception
+    {
         MovieDTO movieDTO = Service.getDataFromApiId(movieId);
         return movieDTO;
     }
 
-    public static List<MovieDTO> getMovieDTOs(String[] movieApiIds)
+    public static List<MovieDTO> getMovieDTOs(List<String> movieApiIds)
     {
         List<Future<MovieDTO>> futureList = new ArrayList<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         for (String movieApiId : movieApiIds)
         {
-            Callable<MovieDTO> task = new ServiceCallable(movieApiId);
+            Callable<MovieDTO> task = new DetailsServiceCallable(movieApiId);
             Future<MovieDTO> future = executorService.submit(task);
             futureList.add(future);
         }
@@ -42,7 +47,10 @@ public class ServiceCallable implements Callable<MovieDTO>
             try
             {
                 MovieDTO finishedTask = movieDTOFuture.get();
-                movieDTOS.add(finishedTask);
+                if (finishedTask != null)
+                {
+                    movieDTOS.add(finishedTask);
+                }
             } catch (InterruptedException | ExecutionException e)
             {
                 System.err.println("Error retrieving data from movie: " + e.getMessage());
