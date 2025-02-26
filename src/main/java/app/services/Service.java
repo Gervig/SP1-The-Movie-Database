@@ -67,7 +67,7 @@ public class Service
                 JsonNode crewNode = rootNode.path("credits").path("crew");
                 if (crewNode.isArray()) {
                     for (JsonNode crewMember : crewNode) {
-                        if ("Director".equals(crewMember.path("job").asText())) {
+                        if ("Director".equals(crewMember.path("job").asText())) { //TODO test at den virker selvom nøglen "job" måske ikke findes
                             director = new DirectorDTO(
                                     crewMember.path("name").asText()
                             );
