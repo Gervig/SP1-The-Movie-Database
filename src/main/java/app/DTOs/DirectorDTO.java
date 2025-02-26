@@ -13,5 +13,6 @@ import lombok.ToString;
 @JsonIgnoreProperties
 public class DirectorDTO
 {
+    private Integer id;
     private String name;
 }

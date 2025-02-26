@@ -99,6 +99,7 @@ public class Service
                     for (JsonNode actorNode : castNode) {
                         if ("Acting".equals(actorNode.path("known_for_department").asText())) {
                             actors.add(new ActorDTO(
+                                    actorNode.path("id").asInt(),
                                     actorNode.path("name").asText()
                             ));
                         }
@@ -112,6 +113,7 @@ public class Service
                     for (JsonNode crewMember : crewNode) {
                         if ("Director".equals(crewMember.path("job").asText())) { //TODO test at den virker selvom nøglen "job" måske ikke findes
                             director = new DirectorDTO(
+                                    crewMember.path("id").asInt(),
                                     crewMember.path("name").asText()
                             );
                             break; // Assume one director per movie
