@@ -20,7 +20,7 @@ public class Movie
     private Integer id;
     private String title;
     private String description;
-    private Double rating;
+    private BigDecimal rating;
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
     private Date releaseDate;

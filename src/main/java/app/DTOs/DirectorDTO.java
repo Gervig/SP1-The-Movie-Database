@@ -1,4 +1,4 @@
-package app.DTOs;
+package app.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

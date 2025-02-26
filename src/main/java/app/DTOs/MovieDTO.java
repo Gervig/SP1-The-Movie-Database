@@ -1,9 +1,10 @@
-package app.DTOs;
+package app.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class MovieDTO
     @JsonProperty("overview")
     private String description;
     @JsonProperty("vote_average")
-    private float rating;
+    private BigDecimal rating;
     @JsonProperty("release_date")
     private LocalDate releaseDate;
     @JsonProperty("id")
