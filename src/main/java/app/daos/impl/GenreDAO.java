@@ -1,80 +1,80 @@
-package app.daos;
+package app.daos.impl;
 
-import app.entities.Actor;
+import app.daos.IDAO;
+import app.entities.Genre;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class ActorDAO implements IDAO<Actor, Integer>
+public class GenreDAO implements IDAO<Genre, Integer>
 {
     private static EntityManagerFactory emf;
-    private static ActorDAO instance;
+    private static GenreDAO instance;
 
-    private ActorDAO()
+    private GenreDAO()
     {
     }
 
-    public static ActorDAO getInstance(EntityManagerFactory _emf)
+    public static GenreDAO getInstance(EntityManagerFactory _emf)
     {
         if (emf == null)
         {
             emf = _emf;
-            instance = new ActorDAO();
+            instance = new GenreDAO();
         }
         return instance;
     }
 
-
     @Override
-    public Actor create(Actor actor)
+    public Genre create(Genre genre)
     {
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            em.persist(actor);
+            em.persist(genre);
             em.getTransaction().commit();
-            return actor;
+            return genre;
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error creating actor", e);
+            throw new ApiException(401, "Error creating genre", e);
         }
     }
 
     @Override
-    public Actor read(Integer id)
+    public Genre read(Integer id)
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            return em.find(Actor.class, id);
+            return em.find(Genre.class, id);
         }
     }
 
     @Override
-    public List<Actor> readAll()
+    public List<Genre> readAll()
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            return em.createQuery("SELECT a FROM Actor a", Actor.class).getResultList();
+            return em.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error finding list of actors", e);
+            throw new ApiException(401, "Error finding list of genres", e);
         }
     }
 
     @Override
-    public Actor update(Actor actor)
+    public Genre update(Genre genre)
     {
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            Actor updatedActor = em.merge(actor);
+            Genre updatedGenre = em.merge(genre);
             em.getTransaction().commit();
-            return updatedActor;
+            return updatedGenre;
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error updating actor", e);
+            throw new ApiException(401, "Error updating movie", e);
         }
     }
 
@@ -84,17 +84,17 @@ public class ActorDAO implements IDAO<Actor, Integer>
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            Actor actor = em.find(Actor.class, id);
-            if (actor == null)
+            Genre genre = em.find(Genre.class, id);
+            if (genre == null)
             {
                 em.getTransaction().rollback();
-                throw new ApiException(401, "Error deleting actor, actor was not found");
+                throw new ApiException(401, "Error deleting genre, genre was not found");
             }
-            em.remove(actor);
+            em.remove(genre);
             em.getTransaction().commit();
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error removing actor", e);
+            throw new ApiException(401, "Error removing genre", e);
         }
     }
 }

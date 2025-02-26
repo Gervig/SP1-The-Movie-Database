@@ -1,76 +1,78 @@
-package app.daos;
+package app.daos.impl;
 
-import app.entities.Genre;
+import app.daos.IDAO;
+import app.entities.Movie;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class GenreDAO implements IDAO<Genre, Integer>
+public class MovieDAO implements IDAO<Movie, Integer>
 {
     private static EntityManagerFactory emf;
-    private static GenreDAO instance;
+    private static MovieDAO instance;
 
-    private GenreDAO()
+    private MovieDAO()
     {
     }
 
-    public static GenreDAO getInstance(EntityManagerFactory _emf)
+    public static MovieDAO getInstance(EntityManagerFactory _emf)
     {
         if (emf == null)
         {
             emf = _emf;
-            instance = new GenreDAO();
+            instance = new MovieDAO();
         }
         return instance;
     }
 
+
     @Override
-    public Genre create(Genre genre)
+    public Movie create(Movie movie)
     {
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            em.persist(genre);
+            em.persist(movie);
             em.getTransaction().commit();
-            return genre;
+            return movie;
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error creating genre", e);
+            throw new ApiException(401, "Error creating movie", e);
         }
     }
 
     @Override
-    public Genre read(Integer id)
+    public Movie read(Integer id)
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            return em.find(Genre.class, id);
+            return em.find(Movie.class, id);
         }
     }
 
     @Override
-    public List<Genre> readAll()
+    public List<Movie> readAll()
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            return em.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
+            return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error finding list of genres", e);
+            throw new ApiException(401, "Error finding list of movies", e);
         }
     }
 
     @Override
-    public Genre update(Genre genre)
+    public Movie update(Movie movie)
     {
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            Genre updatedGenre = em.merge(genre);
+            Movie updatedMovie = em.merge(movie);
             em.getTransaction().commit();
-            return updatedGenre;
+            return updatedMovie;
         } catch (Exception e)
         {
             throw new ApiException(401, "Error updating movie", e);
@@ -83,17 +85,17 @@ public class GenreDAO implements IDAO<Genre, Integer>
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-            Genre genre = em.find(Genre.class, id);
-            if (genre == null)
+            Movie movie = em.find(Movie.class, id);
+            if (movie == null)
             {
                 em.getTransaction().rollback();
-                throw new ApiException(401, "Error deleting genre, genre was not found");
+                throw new ApiException(401, "Error deleting movie, movie was not found");
             }
-            em.remove(genre);
+            em.remove(movie);
             em.getTransaction().commit();
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error removing genre", e);
+            throw new ApiException(401, "Error removing movie", e);
         }
     }
 }
