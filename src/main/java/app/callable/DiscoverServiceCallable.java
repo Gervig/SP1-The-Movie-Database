@@ -1,11 +1,12 @@
 package app.callable;
 
-import app.dtos.MovieDTO;
 import app.services.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+
+// API reference
+// https://developer.themoviedb.org/reference/discover-movie
 
 public class DiscoverServiceCallable implements Callable<List<String>>
 {

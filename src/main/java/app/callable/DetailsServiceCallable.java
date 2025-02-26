@@ -1,4 +1,5 @@
 package app.callable;
+
 import app.dtos.MovieDTO;
 import app.services.Service;
 
@@ -8,6 +9,9 @@ import java.util.concurrent.*;
 
 
 import java.util.concurrent.Callable;
+
+// API reference
+// https://developer.themoviedb.org/reference/movie-details
 
 public class DetailsServiceCallable implements Callable<MovieDTO>
 {
@@ -19,7 +23,8 @@ public class DetailsServiceCallable implements Callable<MovieDTO>
     }
 
     @Override
-    public MovieDTO call() throws Exception {
+    public MovieDTO call() throws Exception
+    {
         MovieDTO movieDTO = Service.getDataFromApiId(movieId);
         return movieDTO;
     }
@@ -42,7 +47,10 @@ public class DetailsServiceCallable implements Callable<MovieDTO>
             try
             {
                 MovieDTO finishedTask = movieDTOFuture.get();
-                movieDTOS.add(finishedTask);
+                if (finishedTask != null)
+                {
+                    movieDTOS.add(finishedTask);
+                }
             } catch (InterruptedException | ExecutionException e)
             {
                 System.err.println("Error retrieving data from movie: " + e.getMessage());
