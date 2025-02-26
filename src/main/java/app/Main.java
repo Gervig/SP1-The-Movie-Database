@@ -28,11 +28,11 @@ public class Main
 
         List<String> movieApiIds = Service.getMovieApiIds();
 
-        movieApiIds.stream().forEach(System.out::println);
+//        movieApiIds.stream().forEach(System.out::println);
 
-//        List<MovieDTO> movieDTOS = DetailsServiceCallable.getMovieDTOs(movieApiIds);
-//
-//        movieDTOS.stream().forEach(System.out::println);
+        List<MovieDTO> movieDTOS = DetailsServiceCallable.getMovieDTOs(movieApiIds);
+
+        movieDTOS.stream().forEach(System.out::println);
 
         // Close the database connection:
         em.close();

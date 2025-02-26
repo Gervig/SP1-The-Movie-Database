@@ -122,18 +122,16 @@ public class Service
             // Handle rate limit status (429)
             if (response.statusCode() == 429)
             {
-                // Check for the "Retry-After" header to see how long to wait
-                String retryAfterHeader = response.headers().firstValue("Retry-After").orElse("3"); // Default to 60 seconds if no header found
+                String retryAfterHeader = response.headers().firstValue("Retry-After").orElse("3");
                 long retryAfterSeconds = Long.parseLong(retryAfterHeader);
 
                 System.out.println("Rate limit exceeded. Retrying after " + retryAfterSeconds + " seconds.");
 
-                // Wait for the specified duration
-                Thread.sleep(retryAfterSeconds * 1000);  // Convert seconds to milliseconds
+                Thread.sleep(retryAfterSeconds * 1000); // Convert seconds to milliseconds
 
-                // Retry the request after the delay
-                return getDataFromApiId(movieApiId);  // Recursive call to retry
+                return getDataFromApiId(movieApiId);  // Retry after waiting
             }
+
 
             // If status code is not 429, proceed as usual
             if (response.statusCode() == 200)
@@ -149,7 +147,7 @@ public class Service
                     if (releaseDateString == null || releaseDateString.isEmpty())
                     {
                         System.out.println("Skipping movie with ID " + movieApiId + " due to missing release_date.");
-                        return null; // Skip the movie if there's no release_date //TODO loop through the MovieDTOs and remove all the null objects
+                        return null; // Skip the movie if there's no release_date
                     }
 
                     // Return the populated MovieDTO
@@ -244,9 +242,9 @@ public class Service
                     .rating(BigDecimal.valueOf(rootNode.path("vote_average").asDouble()))
                     .releaseDate(releaseDate) // Use the safely parsed release date
                     .movieApiID(rootNode.path("id").asInt())
-//                    .genreDTOs(genres)
-//                    .actorDTOS(actors)
-//                    .directorDTO(director)
+                    .genreDTOs(genres)
+                    .actorDTOS(actors)
+                    .directorDTO(director)
                     .build();
         } catch (Exception e)
         {
