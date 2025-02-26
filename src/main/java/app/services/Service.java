@@ -3,6 +3,7 @@ package app.services;
 import app.daos.impl.MovieDAO;
 import app.dtos.ActorDTO;
 import app.dtos.DirectorDTO;
+import app.dtos.GenreDTO;
 import app.dtos.MovieDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,6 +77,14 @@ public class Service
                     }
                 }
 
+                List<GenreDTO> genres = new ArrayList<>();
+                JsonNode genresArray = rootNode.path("genres"); // Get the genres array
+                for (JsonNode genreNode : genresArray) {
+                    int id = genreNode.path("id").asInt();
+                    String name = genreNode.path("name").asText();
+                    genres.add(new GenreDTO(id, name));
+                }
+
                 // Build the MovieDTO
                 return MovieDTO.builder()
                         .title(rootNode.path("original_title").asText())
@@ -83,6 +92,7 @@ public class Service
                         .rating(BigDecimal.valueOf(rootNode.path("vote_average").asDouble()))
                         .releaseDate(LocalDate.parse(rootNode.path("release_date").asText()))
                         .movieApiID(rootNode.path("id").asInt())
+                        .genreDTOs(genres)
                         .actorDTOS(actors)
                         .directorDTO(director)
                         .build();
