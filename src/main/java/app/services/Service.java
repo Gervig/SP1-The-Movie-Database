@@ -3,14 +3,9 @@ package app.services;
 import app.daos.impl.MovieDAO;
 import app.dtos.ActorDTO;
 import app.dtos.DirectorDTO;
-import app.dtos.GenreDTO;
 import app.dtos.MovieDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
