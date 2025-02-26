@@ -77,6 +77,7 @@ public class Service
                     }
                 }
 
+                // Extract genres from "genres"
                 List<GenreDTO> genres = new ArrayList<>();
                 JsonNode genresArray = rootNode.path("genres"); // Get the genres array
                 for (JsonNode genreNode : genresArray) {
