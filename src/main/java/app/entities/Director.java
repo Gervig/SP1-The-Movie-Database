@@ -1,8 +1,15 @@
 package app.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder
+@ToString
 @Entity
 public class Director
 {

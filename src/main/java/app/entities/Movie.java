@@ -1,11 +1,17 @@
 package app.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Builder
+@ToString
 @Entity
 public class Movie
 {
