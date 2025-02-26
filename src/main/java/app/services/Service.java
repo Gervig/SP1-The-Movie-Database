@@ -1,5 +1,6 @@
 package app.services;
 
+import app.callable.DiscoverServiceCallable;
 import app.daos.impl.MovieDAO;
 import app.dtos.ActorDTO;
 import app.dtos.DirectorDTO;
@@ -28,7 +29,6 @@ public class Service
     //MovieService
     private static final HttpClient client = HttpClient.newHttpClient();
 
-
     public Service(MovieDAO movieDAO)
     {
         this.movieDAO = movieDAO;
@@ -36,8 +36,8 @@ public class Service
 
     public static List<String> getMovieApiIds()
     {
-        List<String> allMovieIds = new ArrayList<>();
-        int currentPage = 1;
+        List<String> movieApiIds = new ArrayList<>();
+        String currentPage = "1";
 
         try
         {
@@ -53,16 +53,8 @@ public class Service
                 JsonNode rootNode = objectMapper.readTree(response.body());
                 int totalPages = rootNode.path("total_pages").asInt();  // Get the total pages value
 
-                // Fetch movie IDs for each page based on total_pages
-                //TODO use threads
-                for (int page = 1; page <= totalPages; page++)
-                {
-                    List<String> movieIds = fetchMoviesFromPage(page);
-                    if (movieIds != null)
-                    {
-                        allMovieIds.addAll(movieIds);  // Add movie IDs from this page to the final list
-                    }
-                }
+                movieApiIds = DiscoverServiceCallable.getMovieApiIds(totalPages);
+
             } else
             {
                 System.out.println("GET request failed. Status code: " + response.statusCode());
@@ -73,12 +65,10 @@ public class Service
             e.printStackTrace();
         }
 
-        return allMovieIds;
+        return movieApiIds;
     }
 
-    // Method to fetch movies from a given page
-    //TODO do this with threads
-    private static List<String> fetchMoviesFromPage(int page)
+    public static List<String> fetchMoviesFromPage(String page)
     {
         List<String> movieIds = new ArrayList<>();
         try
@@ -108,7 +98,7 @@ public class Service
     }
 
     // Build the URI for a specific page
-    private static String buildUri(int page)
+    private static String buildUri(String page)
     {
         return "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&release_date.gte=2020-02-26&release_date.lte=2025-02-26&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
     }
@@ -254,9 +244,9 @@ public class Service
                     .rating(BigDecimal.valueOf(rootNode.path("vote_average").asDouble()))
                     .releaseDate(releaseDate) // Use the safely parsed release date
                     .movieApiID(rootNode.path("id").asInt())
-                    .genreDTOs(genres)
-                    .actorDTOS(actors)
-                    .directorDTO(director)
+//                    .genreDTOs(genres)
+//                    .actorDTOS(actors)
+//                    .directorDTO(director)
                     .build();
         } catch (Exception e)
         {

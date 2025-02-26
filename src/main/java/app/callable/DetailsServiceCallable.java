@@ -9,11 +9,11 @@ import java.util.concurrent.*;
 
 import java.util.concurrent.Callable;
 
-public class ServiceCallable implements Callable<MovieDTO>
+public class DetailsServiceCallable implements Callable<MovieDTO>
 {
     String movieId;
 
-    public ServiceCallable(String movieId)
+    public DetailsServiceCallable(String movieId)
     {
         this.movieId = movieId;
     }
@@ -31,7 +31,7 @@ public class ServiceCallable implements Callable<MovieDTO>
 
         for (String movieApiId : movieApiIds)
         {
-            Callable<MovieDTO> task = new ServiceCallable(movieApiId);
+            Callable<MovieDTO> task = new DetailsServiceCallable(movieApiId);
             Future<MovieDTO> future = executorService.submit(task);
             futureList.add(future);
         }

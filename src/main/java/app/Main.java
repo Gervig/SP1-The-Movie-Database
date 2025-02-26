@@ -1,13 +1,13 @@
 package app;
 
-import app.callable.ServiceCallable;
+import app.callable.DetailsServiceCallable;
+import app.callable.DiscoverServiceCallable;
 import app.config.HibernateConfig;
 import app.daos.impl.ActorDAO;
 import app.daos.impl.DirectorDAO;
 import app.daos.impl.GenreDAO;
 import app.daos.impl.MovieDAO;
 import app.dtos.MovieDTO;
-import app.entities.Director;
 import app.services.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -26,16 +26,13 @@ public class Main
         GenreDAO genreDAO = GenreDAO.getInstance(emf);
         DirectorDAO director = DirectorDAO.getInstance(emf);
 
-
         List<String> movieApiIds = Service.getMovieApiIds();
 
+        movieApiIds.stream().forEach(System.out::println);
 
-
-//        movieApiIds.stream().forEach(System.out::println);
-
-        List<MovieDTO> movieDTOS = ServiceCallable.getMovieDTOs(movieApiIds);
-
-        movieDTOS.stream().forEach(System.out::println);
+//        List<MovieDTO> movieDTOS = DetailsServiceCallable.getMovieDTOs(movieApiIds);
+//
+//        movieDTOS.stream().forEach(System.out::println);
 
         // Close the database connection:
         em.close();
