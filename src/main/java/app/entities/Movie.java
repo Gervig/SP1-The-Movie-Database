@@ -27,10 +27,12 @@ public class Movie
     @Column(name = "movie_api_id")
     private Integer movieApiId;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "director_id", nullable = false)
     private Director director;
 
+    @Setter
     @ManyToMany
     @JoinTable(
             name = "movie_genre",
@@ -39,6 +41,7 @@ public class Movie
     )
     private Set<Genre> genres;
 
+    @Setter
     @ManyToMany
     @JoinTable(
             name = "movie_actor",

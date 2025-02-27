@@ -21,6 +21,7 @@ public class Genre
     @Setter
     private String name;
 
+    @Setter
     @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies;
 }

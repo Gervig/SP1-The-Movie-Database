@@ -19,6 +19,7 @@ public class Director
     @Setter
     private String name;
 
+    @Setter
     @OneToMany(mappedBy = "director", cascade = CascadeType.ALL)
     private Set<Movie> movies;
 }

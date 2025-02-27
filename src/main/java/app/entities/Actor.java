@@ -20,6 +20,7 @@ public class Actor
     @Setter
     private String name;
 
+    @Setter
     @ManyToMany(mappedBy = "actors")
     private Set<Movie> movies;
 }
