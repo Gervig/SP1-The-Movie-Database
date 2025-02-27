@@ -20,6 +20,9 @@ class MovieDAOTest
 {
     private static final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
     private static final MovieDAO movieDAO = MovieDAO.getInstance(emf);
+    private static Director[] directors;
+    private static Genre[] genres;
+    private static Actor[] actors;
     private static Movie[] movies;
 
     @BeforeEach
@@ -43,6 +46,11 @@ class MovieDAOTest
 
             // Populate all entities
             PopulatedData data = GlobalPopulator.populate();
+
+            directors = data.directors;
+            genres = data.genres;
+            actors = data.actors;
+            movies = data.movies;
 
             // Persist entities in the correct order
             Arrays.stream(data.directors).forEach(em::persist);
