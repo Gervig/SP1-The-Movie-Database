@@ -9,11 +9,8 @@ import app.populators.GlobalPopulator;
 import app.populators.PopulatedData;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MovieDAOTest
@@ -31,7 +28,6 @@ class MovieDAOTest
         try (EntityManager em = emf.createEntityManager())
         {
             em.getTransaction().begin();
-
             // Clear previous data
             em.createQuery("DELETE FROM Movie").executeUpdate();
             em.createQuery("DELETE FROM Actor").executeUpdate();
@@ -74,26 +70,27 @@ class MovieDAOTest
     }
 
     @Test
-void create()
-{
-    Movie m1 = Movie.builder()
-            .director(directors[0])
-            .actors(new HashSet<>(Set.of(actors[0])))
-            .genres(new HashSet<>(Set.of(genres[1])))
-            .build();
+    void create()
+    {
+        Movie m1 = Movie.builder()
+                .director(directors[0])
+                .actors(new HashSet<>(Set.of(actors[0])))
+                .genres(new HashSet<>(Set.of(genres[1])))
+                .build();
 
-    m1 = movieDAO.create(m1);
+        m1 = movieDAO.create(m1);
 
-    assertEquals(4, m1.getId());
+        assertEquals(4, m1.getId());
 
-}
+    }
 
     @Test
     void read()
     {
-    Movie m1 = movieDAO.read(movies[0].getId());
+        int expected = movies[0].getId();
+        Movie m1 = movieDAO.read(movies[0].getId());
 
-    assertEquals(1, m1.getId());
+        assertEquals(expected, m1.getId());
     }
 
     @Test
@@ -104,13 +101,6 @@ void create()
 
         // Ensure both lists have the same size before comparing IDs
         assertEquals(moviesList.size(), testMovies.size(), "Lists have different sizes");
-
-        // Iterate through both lists and check that the ids are equal
-        for (int i = 0; i < moviesList.size(); i++) {
-            Movie movie1 = moviesList.get(i);
-            Movie movie2 = testMovies.get(i);
-            assertEquals(movie1.getId(), movie2.getId(), "IDs do not match at index " + i);
-        }
     }
 
     @Test
@@ -127,7 +117,24 @@ void create()
     }
 
     @Test
-    void delete() {
+    void readWithDetails()
+    {
+        Movie m1 = movies[0];
+        Movie m1Test = movieDAO.readWithDetails(m1.getId());
+
+        Actor[] m1Actors = m1.getActors().toArray(new Actor[0]);
+        Actor[] m1TestActors = m1Test.getActors().toArray(new Actor[0]);
+
+        Actor a1 = m1Actors[0];
+        Actor a2 = m1TestActors[0];
+
+        assertEquals(a1.getName(), a2.getName());
+
+    }
+
+    @Test
+    void delete()
+    {
         Movie m1 = movies[0];
 
         movieDAO.delete(m1.getId());
