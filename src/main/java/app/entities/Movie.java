@@ -13,7 +13,6 @@ import java.util.Set;
 @Builder
 @ToString
 @Entity
-@Setter
 public class Movie
 {
     @Id
@@ -42,6 +41,7 @@ public class Movie
     private Set<Genre> genres;
 
     @ManyToMany
+    @Setter
     @JoinTable(
             name = "movie_actor",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -50,20 +50,20 @@ public class Movie
     private Set<Actor> actors;
 
     public void printMovieDetails(Movie movie){
-        System.out.println("🎬 Film Information:");
-        System.out.println("📌 ID: " + movie.getId());
-        System.out.println("🎥 Titel: " + movie.getTitle());
-        System.out.println("📅 Udgivelsesdato: " + movie.getReleaseDate());
+        System.out.println("Film Information:");
+        System.out.println("ID: " + movie.getId());
+        System.out.println("Titel: " + movie.getTitle());
+        System.out.println("Udgivelsesdato: " + movie.getReleaseDate());
 
-        System.out.println("\n🎭 Genrer:");
+        System.out.println("\nGenrer:");
         for (Genre genre : movie.getGenres()) {
             System.out.println("  - " + genre.getName());
         }
 
-        System.out.println("\n🎬 Instruktører:");
+        System.out.println("\nInstruktører:");
             System.out.println("  - " + director.getName());
 
-        System.out.println("\n👥 Skuespillere:");
+        System.out.println("\nSkuespillere:");
         for (Actor actor : movie.getActors()) {
             System.out.println("  - " + actor.getName());
         }
