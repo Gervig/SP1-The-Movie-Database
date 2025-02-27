@@ -39,20 +39,23 @@ public class Main
         movieDTOS.stream().forEach(EntityService::persistMovie);
 
         //Find en film via film-id
-        Movie movie = movieDAO.readWithDetails(4);
-        movie.printMovieDetails(movie);
+//        Movie movie = movieDAO.readWithDetails(4);
+//        movie.printMovieDetails(movie);
 
-        //Printer alle film
-        List<Movie> movies = movieDAO.readAll();
-        movies.stream().forEach(System.out::println);
+        List<Movie> movies = movieDAO.readWithDetailsByTitle("den ");
+        movies.forEach(movie -> movie.printMovieDetails(movie));
 
-        //Printer alle genre
-        List<Genre> genres = genreDAO.readAll();
-        genres.forEach(genre -> System.out.println(genre.getName()));
-
-        //Printer alle skuespillere
-        List<Actor> actors = actorDAO.readAll();
-        actors.forEach(actor -> System.out.println(actor.getName()));
+//        //Printer alle film
+//        List<Movie> movies = movieDAO.readAll();
+//        movies.stream().forEach(System.out::println);
+//
+//        //Printer alle genre
+//        List<Genre> genres = genreDAO.readAll();
+//        genres.forEach(genre -> System.out.println(genre.getName()));
+//
+//        //Printer alle skuespillere
+//        List<Actor> actors = actorDAO.readAll();
+//        actors.forEach(actor -> System.out.println(actor.getName()));
 
 
         // Close the database connection:

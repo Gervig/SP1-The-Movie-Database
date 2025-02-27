@@ -61,12 +61,18 @@ public class Movie
         }
 
         System.out.println("\nInstruktører:");
+        if(getDirector()!=null)
+        {
             System.out.println("  - " + director.getName());
+        } else {
+            System.out.println("Denne film har ikke nogen instruktør registret");
+        }
 
         System.out.println("\nSkuespillere:");
         for (Actor actor : movie.getActors()) {
             System.out.println("  - " + actor.getName());
         }
+        System.out.println(System.lineSeparator());
 
     }
 
