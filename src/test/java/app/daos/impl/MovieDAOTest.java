@@ -12,7 +12,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,19 +74,43 @@ class MovieDAOTest
     }
 
     @Test
-    void create()
-    {
+void create()
+{
+    Movie m1 = Movie.builder()
+            .director(directors[0])
+            .actors(new HashSet<>(Set.of(actors[0])))
+            .genres(new HashSet<>(Set.of(genres[1])))
+            .build();
 
-    }
+    m1 = movieDAO.create(m1);
+
+    assertEquals(4, m1.getId());
+
+}
 
     @Test
     void read()
     {
+    Movie m1 = movieDAO.read(movies[0].getId());
+
+    assertEquals(1, m1.getId());
     }
 
     @Test
     void readAll()
     {
+        List<Movie> moviesList = List.of(movies);
+        List<Movie> testMovies = movieDAO.readAll();  // Assuming readAll() returns the list of movies
+
+        // Ensure both lists have the same size before comparing IDs
+        assertEquals(moviesList.size(), testMovies.size(), "Lists have different sizes");
+
+        // Iterate through both lists and check that the ids are equal
+        for (int i = 0; i < moviesList.size(); i++) {
+            Movie movie1 = moviesList.get(i);
+            Movie movie2 = testMovies.get(i);
+            assertEquals(movie1.getId(), movie2.getId(), "IDs do not match at index " + i);
+        }
     }
 
     @Test
