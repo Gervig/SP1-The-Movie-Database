@@ -2,9 +2,11 @@ package app.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Set;
 
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,6 +26,7 @@ public class Director
     @Setter
     private String name;
 
+    @Setter
     @OneToMany(mappedBy = "director", cascade = CascadeType.ALL)
     private Set<Movie> movies;
 }
