@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,14 +28,13 @@ public class Movie
     private BigDecimal rating;
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
-    private Date releaseDate;
+    private LocalDate releaseDate;
     @Column(name = "movie_api_id")
     private Integer movieApiId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "director_id", nullable = false)
-    @ToString.Exclude
+    @JoinColumn(name = "director_id", nullable = true)
     private Director director;
 
     @Setter
@@ -56,4 +56,27 @@ public class Movie
     )
     @ToString.Exclude
     private Set<Actor> actors;
+
+    public void printMovieDetails(Movie movie){
+        System.out.println("🎬 Film Information:");
+        System.out.println("📌 ID: " + movie.getId());
+        System.out.println("🎥 Titel: " + movie.getTitle());
+        System.out.println("📅 Udgivelsesdato: " + movie.getReleaseDate());
+
+        System.out.println("\n🎭 Genrer:");
+        for (Genre genre : movie.getGenres()) {
+            System.out.println("  - " + genre.getName());
+        }
+
+        System.out.println("\n🎬 Instruktører:");
+            System.out.println("  - " + director.getName());
+
+        System.out.println("\n👥 Skuespillere:");
+        for (Actor actor : movie.getActors()) {
+            System.out.println("  - " + actor.getName());
+        }
+
+    }
+
+
 }

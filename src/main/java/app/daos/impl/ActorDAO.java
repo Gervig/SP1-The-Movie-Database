@@ -2,9 +2,11 @@ package app.daos.impl;
 
 import app.daos.IDAO;
 import app.entities.Actor;
+import app.entities.Director;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -61,6 +63,18 @@ public class ActorDAO implements IDAO<Actor, Integer>
         } catch (Exception e)
         {
             throw new ApiException(401, "Error finding list of actors", e);
+        }
+    }
+
+    public Actor readByApiId(Integer apiID) {
+        try (EntityManager em = emf.createEntityManager()) {
+            try {
+                return em.createQuery("SELECT a FROM Actor a WHERE a.actorApiId = :actorApiId", Actor.class)
+                        .setParameter("actorApiId", apiID)
+                        .getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
         }
     }
 

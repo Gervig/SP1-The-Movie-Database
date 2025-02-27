@@ -1,10 +1,13 @@
 package app.daos.impl;
 
 import app.daos.IDAO;
+import app.dtos.DirectorDTO;
+import app.entities.Actor;
 import app.entities.Director;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class DirectorDAO implements IDAO<Director, Integer>
             return director;
         } catch (Exception e)
         {
-            throw new ApiException(401, "Error creating director", e);
+            throw new ApiException(401, "Error creating director ", e);
         }
     }
 
@@ -62,6 +65,19 @@ public class DirectorDAO implements IDAO<Director, Integer>
             throw new ApiException(401, "Error finding list of directors", e);
         }
     }
+
+    public Director readByApiId(Integer apiID) {
+        try (EntityManager em = emf.createEntityManager()) {
+            try {
+                return em.createQuery("SELECT d FROM Director d WHERE d.directorApiId = :directorApiId", Director.class)
+                        .setParameter("directorApiId", apiID)
+                        .getSingleResult();
+            } catch (NoResultException e) {
+                return null; // Returnér null hvis ingen genre findes
+            }
+        }
+    }
+
 
     @Override
     public Director update(Director director)

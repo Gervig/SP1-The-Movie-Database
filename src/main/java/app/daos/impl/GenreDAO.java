@@ -1,10 +1,12 @@
 package app.daos.impl;
 
 import app.daos.IDAO;
+import app.entities.Director;
 import app.entities.Genre;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -62,6 +64,19 @@ public class GenreDAO implements IDAO<Genre, Integer>
             throw new ApiException(401, "Error finding list of genres", e);
         }
     }
+
+    public Genre readByApiId(Integer apiID) {
+        try (EntityManager em = emf.createEntityManager()) {
+            try {
+                return em.createQuery("SELECT g FROM Genre g WHERE g.genreApiId = :genreApiId", Genre.class)
+                        .setParameter("genreApiId", apiID)
+                        .getSingleResult();
+            } catch (NoResultException e) {
+                return null; // Returnér null hvis ingen genre findes
+            }
+        }
+    }
+
 
     @Override
     public Genre update(Genre genre)

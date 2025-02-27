@@ -30,5 +30,6 @@ public class MovieDTO
     @JsonProperty("cast")
     private List<ActorDTO> actorDTOS;
     //Vi skal nok bruge noget JsonNode til det her, Jackson går kun til credits, og JSonNode kan gå helt ind under credits
+    @Getter
     private DirectorDTO directorDTO;
 }

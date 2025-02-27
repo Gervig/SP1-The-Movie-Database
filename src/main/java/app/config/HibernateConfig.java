@@ -94,7 +94,9 @@ public class HibernateConfig
     {
         props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-        props.put("hibernate.hbm2ddl.auto", "create"); //create to wipe DB each time, update creates new data
+        //Use create to wipe DB each time, update to update with new data (use create the first time)
+        props.put("hibernate.hbm2ddl.auto", "create");
+        //props.put("hibernate.hbm2ddl.auto", "update");
         props.put("hibernate.current_session_context_class", "thread");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.format_sql", "true");
