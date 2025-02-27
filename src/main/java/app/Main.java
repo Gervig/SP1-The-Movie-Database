@@ -42,13 +42,14 @@ public class Main
 //        Movie movie = movieDAO.readWithDetails(4);
 //        movie.printMovieDetails(movie);
 
-        List<Movie> movies = movieDAO.readWithDetailsByTitle("den ");
-        movies.forEach(movie -> movie.printMovieDetails(movie));
+//        //Man kan søge på dele af titlen
+//        List<Movie> movies = movieDAO.readWithDetailsByTitle("den ");
+//        movies.forEach(movie -> movie.printMovieDetails(movie));
 
-//        //Printer alle film
-//        List<Movie> movies = movieDAO.readAll();
-//        movies.stream().forEach(System.out::println);
-//
+        //Printer alle film med titler
+        List<Movie> movies = movieDAO.readAll();
+        movies.forEach(movie -> System.out.println(movie.getTitle()));
+
 //        //Printer alle genre
 //        List<Genre> genres = genreDAO.readAll();
 //        genres.forEach(genre -> System.out.println(genre.getName()));
