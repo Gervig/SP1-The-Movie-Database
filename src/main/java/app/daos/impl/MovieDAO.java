@@ -1,12 +1,15 @@
 package app.daos.impl;
 
 import app.daos.IDAO;
+import app.entities.Actor;
 import app.entities.Movie;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MovieDAO implements IDAO<Movie, Integer>
 {
@@ -31,21 +34,33 @@ public class MovieDAO implements IDAO<Movie, Integer>
     @Override
     public Movie create(Movie movie)
     {
-        try (EntityManager em = emf.createEntityManager())
-        {
-            try
-            {
+        try (EntityManager em = emf.createEntityManager()) {
+            try {
                 em.getTransaction().begin();
+
+                // Sikrer unikke skuespillere ved at hente dem fra databasen, hvis de findes
+                Set<Actor> uniqueActors = new HashSet<>();
+                for (Actor actor : movie.getActors()) {
+                    Actor existingActor = em.createQuery("SELECT a FROM Actor a WHERE a.actorApiId = :apiId", Actor.class)
+                            .setParameter("apiId", actor.getActorApiId())
+                            .getResultStream()
+                            .findFirst()
+                            .orElse(actor); // Hvis skuespilleren ikke findes, brug den nye
+
+                    uniqueActors.add(existingActor);
+                }
+
+                // Opdater filmens skuespiller-liste, så den kun har unikke skuespillere
+                movie.setActors(uniqueActors);
+
                 em.persist(movie);
                 em.getTransaction().commit();
                 return movie;
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 em.getTransaction().rollback();
                 throw new ApiException(401, "Error creating movie " + movie.getMovieApiId(), e);
             }
-        }
-    }
+        }    }
 
     @Override
     public Movie read(Integer id)

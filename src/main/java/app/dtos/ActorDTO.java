@@ -19,5 +19,6 @@ public class ActorDTO
 {
     @JsonProperty("id")
     private Integer actorApiId;
+
     private String name;
 }

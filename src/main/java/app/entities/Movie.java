@@ -3,6 +3,7 @@ package app.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Builder
 @ToString
 @Entity
+@Setter
 public class Movie
 {
     @Id
@@ -23,12 +25,12 @@ public class Movie
     private BigDecimal rating;
     @Temporal(TemporalType.DATE)
     @Column(name = "release_date")
-    private Date releaseDate;
+    private LocalDate releaseDate;
     @Column(name = "movie_api_id")
     private Integer movieApiId;
 
     @ManyToOne
-    @JoinColumn(name = "director_id", nullable = false)
+    @JoinColumn(name = "director_id", nullable = true)
     private Director director;
 
     @ManyToMany
