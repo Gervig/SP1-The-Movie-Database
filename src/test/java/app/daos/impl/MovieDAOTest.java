@@ -6,6 +6,7 @@ import app.entities.Director;
 import app.entities.Genre;
 import app.entities.Movie;
 import app.populators.GlobalPopulator;
+import app.populators.PopulatedData;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,11 +41,14 @@ class MovieDAOTest
             em.createNativeQuery("ALTER SEQUENCE genre_id_seq RESTART WITH 1").executeUpdate();
             em.createNativeQuery("ALTER SEQUENCE director_id_seq RESTART WITH 1").executeUpdate();
 
-            // Populate movies
-            movies = GlobalPopulator.populate();
+            // Populate all entities
+            PopulatedData data = GlobalPopulator.populate();
 
-            // Persist all movies and their related entities using forEach
-            Arrays.stream(movies).forEach(em::persist);
+            // Persist entities in the correct order
+            Arrays.stream(data.directors).forEach(em::persist);
+            Arrays.stream(data.genres).forEach(em::persist);
+            Arrays.stream(data.actors).forEach(em::persist);
+            Arrays.stream(data.movies).forEach(em::persist);
 
             em.getTransaction().commit();
         } catch (Exception e)
@@ -52,7 +56,6 @@ class MovieDAOTest
             e.printStackTrace();
         }
     }
-
 
     @Test
     void getInstance()
@@ -65,6 +68,7 @@ class MovieDAOTest
     @Test
     void create()
     {
+
     }
 
     @Test
