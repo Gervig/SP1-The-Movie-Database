@@ -13,7 +13,7 @@ public class ActorDAO implements IDAO<Actor, Integer>
     private static EntityManagerFactory emf;
     private static ActorDAO instance;
 
-    private ActorDAO()
+    public ActorDAO()
     {
     }
 

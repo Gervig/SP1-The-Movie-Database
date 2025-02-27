@@ -13,7 +13,7 @@ public class MovieDAO implements IDAO<Movie, Integer>
     private static EntityManagerFactory emf;
     private static MovieDAO instance;
 
-    private MovieDAO()
+    public MovieDAO()
     {
     }
 

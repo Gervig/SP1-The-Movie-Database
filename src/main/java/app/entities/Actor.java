@@ -16,6 +16,8 @@ public class Actor
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Setter
     private String name;
 
     @ManyToMany(mappedBy = "actors")

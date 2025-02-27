@@ -13,7 +13,7 @@ public class DirectorDAO implements IDAO<Director, Integer>
     private static EntityManagerFactory emf;
     private static DirectorDAO instance;
 
-    private DirectorDAO()
+    public DirectorDAO()
     {
     }
 
