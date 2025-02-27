@@ -2,10 +2,13 @@ package app.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,6 +20,7 @@ public class Movie
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Setter
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -30,6 +34,7 @@ public class Movie
     @Setter
     @ManyToOne
     @JoinColumn(name = "director_id", nullable = false)
+    @ToString.Exclude
     private Director director;
 
     @Setter
@@ -39,6 +44,7 @@ public class Movie
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
+    @ToString.Exclude
     private Set<Genre> genres;
 
     @Setter
@@ -48,5 +54,6 @@ public class Movie
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
+    @ToString.Exclude
     private Set<Actor> actors;
 }
