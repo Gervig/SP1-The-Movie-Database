@@ -34,13 +34,16 @@ public class MovieDAO implements IDAO<Movie, Integer>
     @Override
     public Movie create(Movie movie)
     {
-        try (EntityManager em = emf.createEntityManager()) {
-            try {
+        try (EntityManager em = emf.createEntityManager())
+        {
+            try
+            {
                 em.getTransaction().begin();
 
                 // Sikrer unikke skuespillere ved at hente dem fra databasen, hvis de findes
                 Set<Actor> uniqueActors = new HashSet<>();
-                for (Actor actor : movie.getActors()) {
+                for (Actor actor : movie.getActors())
+                {
                     Actor existingActor = em.createQuery("SELECT a FROM Actor a WHERE a.actorApiId = :apiId", Actor.class)
                             .setParameter("apiId", actor.getActorApiId())
                             .getResultStream()
@@ -56,11 +59,13 @@ public class MovieDAO implements IDAO<Movie, Integer>
                 em.persist(movie);
                 em.getTransaction().commit();
                 return movie;
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 em.getTransaction().rollback();
                 throw new ApiException(401, "Error creating movie " + movie.getMovieApiId(), e);
             }
-        }    }
+        }
+    }
 
     @Override
     public Movie read(Integer id)
@@ -76,15 +81,17 @@ public class MovieDAO implements IDAO<Movie, Integer>
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
+            return em.createQuery("SELECT m FROM Movie m ORDER BY m.id", Movie.class).getResultList();
         } catch (Exception e)
         {
             throw new ApiException(401, "Error finding list of movies", e);
         }
     }
 
-    public Movie readWithDetails(int id) {
-        try (EntityManager em = emf.createEntityManager()) {
+    public Movie readWithDetails(int id)
+    {
+        try (EntityManager em = emf.createEntityManager())
+        {
             return em.createQuery(
                             "SELECT m FROM Movie m " +
                                     "LEFT JOIN FETCH m.actors " +

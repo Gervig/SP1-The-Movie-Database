@@ -2,9 +2,11 @@ package app.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Set;
 
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,6 +25,7 @@ public class Genre
     @Setter
     private String name;
 
+    @Setter
     @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies;
 }
