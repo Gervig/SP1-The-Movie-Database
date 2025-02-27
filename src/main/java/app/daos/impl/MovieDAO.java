@@ -83,6 +83,18 @@ public class MovieDAO implements IDAO<Movie, Integer>
         }
     }
 
+    public Movie readWithDetails(int id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery(
+                            "SELECT m FROM Movie m " +
+                                    "LEFT JOIN FETCH m.actors " +
+                                    "LEFT JOIN FETCH m.genres " +
+                                    "WHERE m.id = :id", Movie.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }
+    }
+
     @Override
     public Movie update(Movie movie)
     {

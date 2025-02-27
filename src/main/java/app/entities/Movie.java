@@ -48,4 +48,27 @@ public class Movie
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
     private Set<Actor> actors;
+
+    public void printMovieDetails(Movie movie){
+        System.out.println("🎬 Film Information:");
+        System.out.println("📌 ID: " + movie.getId());
+        System.out.println("🎥 Titel: " + movie.getTitle());
+        System.out.println("📅 Udgivelsesdato: " + movie.getReleaseDate());
+
+        System.out.println("\n🎭 Genrer:");
+        for (Genre genre : movie.getGenres()) {
+            System.out.println("  - " + genre.getName());
+        }
+
+        System.out.println("\n🎬 Instruktører:");
+            System.out.println("  - " + director.getName());
+
+        System.out.println("\n👥 Skuespillere:");
+        for (Actor actor : movie.getActors()) {
+            System.out.println("  - " + actor.getName());
+        }
+
+    }
+
+
 }

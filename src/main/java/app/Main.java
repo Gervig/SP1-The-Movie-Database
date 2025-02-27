@@ -8,6 +8,7 @@ import app.daos.impl.DirectorDAO;
 import app.daos.impl.GenreDAO;
 import app.daos.impl.MovieDAO;
 import app.dtos.MovieDTO;
+import app.entities.Movie;
 import app.services.EntityService;
 import app.services.Service;
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class Main
         MovieDAO movieDAO = MovieDAO.getInstance(emf);
         ActorDAO actorDAO = ActorDAO.getInstance(emf);
         GenreDAO genreDAO = GenreDAO.getInstance(emf);
-        DirectorDAO director = DirectorDAO.getInstance(emf);
+        DirectorDAO directorDAO = DirectorDAO.getInstance(emf);
 
         List<String> movieApiIds = Service.getMovieApiIds();
 
@@ -35,8 +36,8 @@ public class Main
 
         movieDTOS.stream().forEach(EntityService::persistMovie);
 
-
-
+        Movie movie = movieDAO.readWithDetails(4);
+        movie.printMovieDetails(movie);
 
         // Close the database connection:
         em.close();
