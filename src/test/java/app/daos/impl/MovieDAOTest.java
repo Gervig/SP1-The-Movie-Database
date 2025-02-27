@@ -116,10 +116,24 @@ void create()
     @Test
     void update()
     {
+        Movie m1 = movies[0];
+        m1.setTitle("New Title");
+
+        m1 = movieDAO.update(m1);
+
+        Movie m1Test = movieDAO.read(m1.getId());
+
+        assertEquals("New Title", m1Test.getTitle());
     }
 
     @Test
-    void delete()
-    {
+    void delete() {
+        Movie m1 = movies[0];
+
+        movieDAO.delete(m1.getId());
+
+        Movie deletedMovie = movieDAO.read(m1.getId());
+
+        assertNull(deletedMovie);
     }
 }
