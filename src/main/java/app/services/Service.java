@@ -24,7 +24,6 @@ public class Service
     //API_reader
     private final MovieDAO movieDAO;
     static String api_key = System.getenv("api_key");
-
     private static final ObjectMapper objectMapper = new ObjectMapper();
     //MovieService
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -43,7 +42,7 @@ public class Service
         {
             // Make the first request to get the total pages value
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(buildUri(currentPage)))
+                    .uri(new URI(buildDiscoverUri(currentPage)))
                     .GET()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -74,7 +73,7 @@ public class Service
         try
         {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(buildUri(page)))
+                    .uri(new URI(buildDiscoverUri(page)))
                     .GET()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -98,7 +97,7 @@ public class Service
     }
 
     // Build the URI for a specific page
-    private static String buildUri(String page)
+    public static String buildDiscoverUri(String page)
     {
         return "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&release_date.gte=2020-02-26&release_date.lte=2025-02-26&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
     }
