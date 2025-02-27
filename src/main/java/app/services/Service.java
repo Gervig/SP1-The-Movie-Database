@@ -100,7 +100,7 @@ public class Service
     // Build the URI for a specific page
     private static String buildUri(String page)
     {
-        return "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&release_date.gte=2020-02-26&release_date.lte=2025-02-26&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
+        return "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&primary_release_date.gte=2020-02-26&primary_release_date.lte=2025-02-26&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
     }
 
     public static MovieDTO getDataFromApiId(String movieApiId)
