@@ -5,6 +5,7 @@ import app.entities.Director;
 import app.entities.Genre;
 import app.entities.Movie;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,19 +13,21 @@ public class MoviePopulator
 {
     public static Movie[] populate()
     {
-        Set<Actor> m1Actors = new HashSet<>();
+        Actor[] actors = ActorPopulator.populate();
+
+        Set<Actor> m1Actors = new HashSet<>(Arrays.asList(actors[0], actors[1]));
         Set<Genre> m1Genres = new HashSet<>();
         Director m1Director = Director.builder()
                 .name("Movie 1 Director")
                 .build();
 
-        Set<Actor> m2Actors = new HashSet<>();
+        Set<Actor> m2Actors = new HashSet<>(Arrays.asList(actors[1], actors[2]));
         Set<Genre> m2Genres = new HashSet<>();
         Director m2Director = Director.builder()
                 .name("Movie 2 Director")
                 .build();
 
-        Set<Actor> m3Actors = new HashSet<>();
+        Set<Actor> m3Actors = new HashSet<>(Arrays.asList(actors[2], actors[3]));
         Set<Genre> m3Genres = new HashSet<>();
         Director m3Director = Director.builder()
                 .name("Movie 3 Director")
