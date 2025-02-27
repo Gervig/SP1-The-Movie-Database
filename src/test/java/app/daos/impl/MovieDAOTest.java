@@ -96,6 +96,8 @@ class MovieDAOTest
     @Test
     void getInstance()
     {
+        MovieDAO instanceTest = MovieDAO.getInstance(emf);
+
     }
 
     @Test
