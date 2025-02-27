@@ -33,13 +33,17 @@ public class MovieDAO implements IDAO<Movie, Integer>
     {
         try (EntityManager em = emf.createEntityManager())
         {
-            em.getTransaction().begin();
-            em.persist(movie);
-            em.getTransaction().commit();
-            return movie;
-        } catch (Exception e)
-        {
-            throw new ApiException(401, "Error creating movie", e);
+            try
+            {
+                em.getTransaction().begin();
+                em.persist(movie);
+                em.getTransaction().commit();
+                return movie;
+            } catch (Exception e)
+            {
+                em.getTransaction().rollback();
+                throw new ApiException(401, "Error creating movie " + movie.getMovieApiId(), e);
+            }
         }
     }
 

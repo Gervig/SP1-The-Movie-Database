@@ -8,6 +8,7 @@ import app.daos.impl.DirectorDAO;
 import app.daos.impl.GenreDAO;
 import app.daos.impl.MovieDAO;
 import app.dtos.MovieDTO;
+import app.services.EntityService;
 import app.services.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -32,7 +33,10 @@ public class Main
 
         List<MovieDTO> movieDTOS = DetailsServiceCallable.getMovieDTOs(movieApiIds);
 
-        movieDTOS.stream().forEach(System.out::println);
+        movieDTOS.stream().forEach(EntityService::persistMovie);
+
+
+
 
         // Close the database connection:
         em.close();

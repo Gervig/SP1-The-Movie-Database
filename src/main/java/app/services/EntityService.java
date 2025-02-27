@@ -1,5 +1,6 @@
 package app.services;
 
+import app.config.HibernateConfig;
 import app.daos.impl.ActorDAO;
 import app.daos.impl.DirectorDAO;
 import app.daos.impl.GenreDAO;
@@ -12,6 +13,8 @@ import app.entities.Actor;
 import app.entities.Director;
 import app.entities.Genre;
 import app.entities.Movie;
+import jakarta.persistence.EntityManagerFactory;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +22,12 @@ import java.util.stream.Collectors;
 
 public class EntityService
 {
+    private static EntityManagerFactory emf;
 
-    public List<Actor> persistActors(MovieDTO movieDTO){
+    public static List<Actor> persistActors(MovieDTO movieDTO){
 
         List<Actor> actors = new ArrayList<>();
-        ActorDAO actorDAO = new ActorDAO();
+        ActorDAO actorDAO = ActorDAO.getInstance(emf);
 
         for(ActorDTO actorDTO : movieDTO.getActorDTOS())
         {
@@ -32,6 +36,7 @@ public class EntityService
             if (exsistingActor == null)
             {
                 actor = new Actor();
+                actor.setActorApiId(actorDTO.getActorApiId());
                 actor.setName(actorDTO.getName());
                 actorDAO.create(actor);
                 actors.add(actor);
@@ -43,7 +48,7 @@ public class EntityService
         return actors;
     }
 
-    public Director persistDirector(MovieDTO movieDTO){
+    public static Director persistDirector(MovieDTO movieDTO){
 
         DirectorDAO directorDAO = new DirectorDAO();
         DirectorDTO directorDTO = movieDTO.getDirectorDTO();
@@ -53,6 +58,7 @@ public class EntityService
             if (exsistingDirector == null)
             {
                 director = new Director();
+                director.setDirectorApiId(director.getDirectorApiId());
                 director.setName(directorDTO.getName());
                 directorDAO.create(director);
             } else {
@@ -61,10 +67,10 @@ public class EntityService
         return director;
     }
 
-    public List<Genre> persistGenres(MovieDTO movieDTO){
+    public static List<Genre> persistGenres(MovieDTO movieDTO){
 
         List<Genre> genres = new ArrayList<>();
-        GenreDAO genreDAO = new GenreDAO();
+        GenreDAO genreDAO = GenreDAO.getInstance(emf);
 
         for(GenreDTO genreDTO : movieDTO.getGenreDTOs())
         {
@@ -73,6 +79,7 @@ public class EntityService
             if (exsistingGenre == null)
             {
                 genre = new Genre();
+                genre.setGenreApiId(genreDTO.getGenreApiId());
                 genre.setName(genreDTO.getGenre());
                 genreDAO.create(genre);
                 genres.add(genre);
@@ -84,9 +91,9 @@ public class EntityService
         return genres;
     }
 
-    public Movie persistMovie(MovieDTO movieDTO){
+    public static Movie persistMovie(MovieDTO movieDTO){
 
-        MovieDAO movieDAO = new MovieDAO();
+        MovieDAO movieDAO = MovieDAO.getInstance(emf);
 
             Movie exsistingMovie = movieDAO.read(movieDTO.getMovieApiID());
             Movie movie;
@@ -94,6 +101,7 @@ public class EntityService
             {
                 movie = Movie.builder()
                         .title(movieDTO.getTitle())
+                        .movieApiId(movieDTO.getMovieApiID())
                         .description(movieDTO.getDescription())
                         .rating(movieDTO.getRating())
                         .releaseDate(Date.valueOf(movieDTO.getReleaseDate()))

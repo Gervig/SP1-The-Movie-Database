@@ -16,6 +16,8 @@ public class Genre
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Setter
     @Column(name = "genre_api_id")
     private Integer genreApiId;
     @Setter

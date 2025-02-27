@@ -16,6 +16,11 @@ public class Director
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Setter
+    @Column(name = "director_api_id")
+    private Integer directorApiId;
+
     @Setter
     private String name;
 

@@ -18,6 +18,7 @@ public class Movie
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private BigDecimal rating;
     @Temporal(TemporalType.DATE)
