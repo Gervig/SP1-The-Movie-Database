@@ -3,7 +3,6 @@ package app.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.util.Set;
 
 @DynamicUpdate
