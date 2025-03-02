@@ -18,7 +18,8 @@ public class DiscoverServiceCallable implements Callable<List<String>>
     }
 
     @Override
-    public List<String> call() throws Exception {
+    public List<String> call() throws Exception
+    {
         List<String> movie_api_ids = Service.fetchMoviesFromPage(pageNum);
         return movie_api_ids;
     }
@@ -28,7 +29,7 @@ public class DiscoverServiceCallable implements Callable<List<String>>
         List<Future<List<String>>> futureList = new ArrayList<>();
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        for(int i = 1; i <= totalPages; i++)
+        for (int i = 1; i <= totalPages; i++)
         {
             Callable<List<String>> task = new DiscoverServiceCallable(String.valueOf(i));
             Future<List<String>> future = executorService.submit(task);
