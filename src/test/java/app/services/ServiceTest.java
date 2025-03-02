@@ -13,6 +13,7 @@ class ServiceTest
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final HttpClient client = HttpClient.newHttpClient();
 
+    // Tests if the list of Movie API IDs is between 2 ranges
     @Test
     void getMovieApiIds()
     {
