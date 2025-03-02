@@ -99,7 +99,12 @@ public class Service
     // Build the URI for a specific page
     public static String buildDiscoverUri(String page)
     {
-        return "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&primary_release_date.gte=2020-02-26&primary_release_date.lte=2025-02-26&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
+        String lowerEndDate = String.valueOf(LocalDate.now().minusYears(5));
+        String upperEndDate = String.valueOf(LocalDate.now());
+        String uri = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=da&primary_release_date.gte=%%ld&primary_release_date.lte=%%ud&sort_by=popularity.desc&with_original_language=da&api_key=" + api_key + "&page=" + page;
+        uri = uri.replace("%%ld", lowerEndDate);
+        uri = uri.replace("%%ud", upperEndDate);
+        return uri;
     }
 
     public static MovieDTO getDataFromApiId(String movieApiId)
@@ -121,7 +126,7 @@ public class Service
             // Handle rate limit status (429)
             if (response.statusCode() == 429)
             {
-                String retryAfterHeader = response.headers().firstValue("Retry-After").orElse("3");
+                String retryAfterHeader = response.headers().firstValue("Retry-After").orElse("4");
                 long retryAfterSeconds = Long.parseLong(retryAfterHeader);
 
                 System.out.println("Rate limit exceeded. Retrying after " + retryAfterSeconds + " seconds.");
