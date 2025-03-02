@@ -80,7 +80,7 @@ class MovieDAOTest
 
         m1 = movieDAO.create(m1);
 
-        assertEquals(4, m1.getId());
+        assertEquals(4, m1.getId(), "Movie IDs aren't the same");
 
     }
 
@@ -90,30 +90,30 @@ class MovieDAOTest
         int expected = movies[0].getId();
         Movie m1 = movieDAO.read(movies[0].getId());
 
-        assertEquals(expected, m1.getId());
+        assertEquals(expected, m1.getId(), "Movies have different IDs");
     }
 
     @Test
     void readAll()
     {
-        List<Movie> moviesList = List.of(movies);
-        List<Movie> testMovies = movieDAO.readAll();  // Assuming readAll() returns the list of movies
+        List<Movie> expectedList = List.of(movies);
+        List<Movie> actualList = movieDAO.readAll();
 
-        // Ensure both lists have the same size before comparing IDs
-        assertEquals(moviesList.size(), testMovies.size(), "Lists have different sizes");
+        assertEquals(expectedList.size(), actualList.size(), "Lists have different sizes");
     }
 
     @Test
     void update()
     {
+        String newTitle = "New Title";
         Movie m1 = movies[0];
-        m1.setTitle("New Title");
+        m1.setTitle(newTitle);
 
         m1 = movieDAO.update(m1);
 
         Movie m1Test = movieDAO.read(m1.getId());
 
-        assertEquals("New Title", m1Test.getTitle());
+        assertEquals(newTitle, m1Test.getTitle(), "Movies have different titles");
     }
 
     @Test
@@ -128,7 +128,7 @@ class MovieDAOTest
         Actor a1 = m1Actors[0];
         Actor a2 = m1TestActors[0];
 
-        assertEquals(a1.getName(), a2.getName());
+        assertEquals(a1.getName(), a2.getName(), "Actors have different names");
 
     }
 
@@ -141,6 +141,6 @@ class MovieDAOTest
 
         Movie deletedMovie = movieDAO.read(m1.getId());
 
-        assertNull(deletedMovie);
+        assertNull(deletedMovie, "Movie isn't null");
     }
 }
