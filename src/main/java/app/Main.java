@@ -47,8 +47,8 @@ public class Main
 //        movies.forEach(movie -> movie.printMovieDetails(movie));
 
         //Printer alle film med titler
-        List<Movie> movies = movieDAO.readAll();
-        movies.forEach(movie -> System.out.println(movie.getTitle()));
+//        List<Movie> movies = movieDAO.readAll();
+//        movies.forEach(movie -> System.out.println(movie.getTitle()));
 
 //        //Printer alle genre
 //        List<Genre> genres = genreDAO.readAll();

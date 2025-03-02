@@ -49,7 +49,6 @@ public class Movie
 
     @Setter
     @ManyToMany
-    @Setter
     @JoinTable(
             name = "movie_actor",
             joinColumns = @JoinColumn(name = "movie_id"),
