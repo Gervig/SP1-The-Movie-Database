@@ -6,6 +6,7 @@ import app.entities.Genre;
 import app.entities.Movie;
 import app.populators.PopulatedData;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class GlobalPopulator {
@@ -24,6 +25,7 @@ public class GlobalPopulator {
         Movie m1 = Movie.builder()
                 .title("Movie1")
                 .movieApiId(123)
+                .releaseDate(LocalDate.now())
                 .director(d1)
                 .genres(new HashSet<>(Set.of(g1, g2)))
                 .build();
@@ -31,6 +33,7 @@ public class GlobalPopulator {
         Movie m2 = Movie.builder()
                 .title("Movie2")
                 .movieApiId(456)
+                .releaseDate(LocalDate.now().minusYears(3))
                 .director(d1)
                 .genres(new HashSet<>(Set.of(g2, g3)))
                 .build();
@@ -38,6 +41,7 @@ public class GlobalPopulator {
         Movie m3 = Movie.builder()
                 .title("Movie3")
                 .movieApiId(789)
+                .releaseDate(LocalDate.now().minusYears(1))
                 .director(d2)
                 .genres(new HashSet<>(Set.of(g1, g3)))
                 .build();
