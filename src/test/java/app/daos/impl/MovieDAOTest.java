@@ -34,7 +34,7 @@ class MovieDAOTest
             em.createQuery("DELETE FROM Genre").executeUpdate();
             em.createQuery("DELETE FROM Director").executeUpdate();
 
-            // Reset ID sequences (for PostgreSQL & databases that support sequences)
+            // Reset ID sequences (for PostgresSQL & databases that support sequences)
             em.createNativeQuery("ALTER SEQUENCE movie_id_seq RESTART WITH 1").executeUpdate();
             em.createNativeQuery("ALTER SEQUENCE actor_id_seq RESTART WITH 1").executeUpdate();
             em.createNativeQuery("ALTER SEQUENCE genre_id_seq RESTART WITH 1").executeUpdate();
